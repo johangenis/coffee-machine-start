@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from data import menu, resources, money
 
 machine_on = True
@@ -44,3 +45,10 @@ while machine_on:
 # TODO: 6 Check transaction successful?
 
 # TODO: 7 Make Coffee.
+=======
+from data import menu, resources
+
+MENU = menu
+
+print(f"{MENU}")
+>>>>>>> origin/master
