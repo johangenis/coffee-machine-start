@@ -15,3 +15,10 @@ resources = {
     "milk": 200,
     "coffee": 100,
 }
+
+money = {
+    "quarters": {"value": 0.25, "count": 0,},
+    "dimes": {"value": 0.10, "count": 0,},
+    "nickles": {"value": 0.05, "count": 0,},
+    "pennies": {"value": 0.01, "count": 0,},
+}
