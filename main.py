@@ -2,7 +2,14 @@ from data import menu, resources, money
 
 machine_on = True
 
-while machine_on:
+transaction_done = False
+
+water = resources["water"]
+milk = resources["milk"]
+coffee = resources["coffee"]
+
+
+while machine_on and not transaction_done:
 
     def format_data(resources, money):
         """
@@ -10,9 +17,6 @@ while machine_on:
         report on the quantities of: water, milk, coffee and money.
         """
 
-        water = resources["water"]
-        milk = resources["milk"]
-        coffee = resources["coffee"]
         quarters_amount = (
             money["quarters"]["value"] * money["quarters"]["count"]
         )
@@ -22,40 +26,47 @@ while machine_on:
         total_amount = (
             quarters_amount + dimes_amount + nickles_amount + pennies_amount
         )
+
         return f"Water: {water}ml\nMilk: {milk}\nCoffee: {coffee}\nMoney: ${total_amount}"
 
     def check_resources(user_choice):
-        choice = ""
+
+        choice = []
         espresso = menu["espresso"]
         latte = menu["latte"]
         cappuccino = menu["cappuccino"]
 
-        # format_data(resources, money)
-
         if user_choice == "espresso":
-            print(f"You have chosen: {espresso}")
-            water_level = resources["water"] - espresso["ingredients"]["water"]
-            milk_level = resources["milk"]  # - espresso["ingredients"]["milk"]
-            coffee_level = resources["coffee"]
-            choice = f"Water Level: {water_level}\nMilk Level: {milk_level}\nCoffee Level: {coffee_level}"
+            print(f"{water}", espresso["ingredients"]["water"])
+            if water < espresso["ingredients"]["water"]:
+                print(
+                    "Sorry, there is not enough water in the machine to make your espresso."
+                )
+            water_level = water - espresso["ingredients"]["water"]
+            milk_level = milk
+            coffee_level = coffee - espresso["ingredients"]["coffee"]
+            cost = espresso["cost"]
+            choice = [water_level, milk_level, coffee_level, cost]
 
         elif user_choice == "latte":
-            print(f"You have chosen: {latte}")
-            water_level = water - menu["latte"]["ingredients"]["water"]
-            milk_level = milk - menu["latte"]["ingredients"]["milk"]
-            coffee_level = coffee - menu["latte"]["ingredients"]["coffee"]
-            choice = f"Water Level: {water_level}\nMilk Level: {milk_level}\nCoffee Level: {coffee_level}"
+
+            water_level = water - latte["ingredients"]["water"]
+            milk_level = milk - latte["ingredients"]["milk"]
+            coffee_level = coffee - latte["ingredients"]["coffee"]
+            cost = latte["cost"]
+            choice = [water_level, milk_level, coffee_level, cost]
 
         elif user_choice == "cappuccino":
-            print(f"You have chosen: {cappuccino}")
-            water_level = water - menu["cappuccino"]["ingredients"]["water"]
-            milk_level = milk - menu["cappuccino"]["ingredients"]["milk"]
-            coffee_level = coffee - menu["cappuccino"]["ingredients"]["coffee"]
-            choice = f"Water Level: {water_level}\nMilk Level: {milk_level}\nCoffee Level: {coffee_level}"
+
+            water_level = water - cappuccino["ingredients"]["water"]
+            milk_level = milk - cappuccino["ingredients"]["milk"]
+            coffee_level = coffee - cappuccino["ingredients"]["coffee"]
+            cost = cappuccino["cost"]
+            choice = [water_level, milk_level, coffee_level, cost]
 
         return choice
 
-    # TODO: 1 Prompt user by asking "What would you like? (espresso/latte/cappuccino):"
+    # 1 Prompt user by asking "What would you like? (espresso/latte/cappuccino):"
     user_choice = input(
         "What would you like? (espresso/latte/cappuccino):"
     ).lower()
@@ -69,7 +80,12 @@ while machine_on:
         print(format_data(resources, money))
     # TODO: 4 Check resources sufficient?
     else:
-        check_resources(user_choice)
+        resources_after_purchase = check_resources(user_choice)
+        water = resources_after_purchase[0]
+        milk = resources_after_purchase[1]
+        coffee = resources_after_purchase[2]
+        cost = resources_after_purchase[3]
+        print(f"Choice when called: {resources_after_purchase}")
 
 
 # TODO: 5 Process coins.
