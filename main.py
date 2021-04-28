@@ -29,6 +29,7 @@ while machine_on and not transaction_done:
 
         return f"Water: {water}ml\nMilk: {milk}\nCoffee: {coffee}\nMoney: ${total_amount}"
 
+    # 4 Check resources sufficient?
     def check_resources(user_choice):
 
         choice = []
@@ -37,11 +38,12 @@ while machine_on and not transaction_done:
         cappuccino = menu["cappuccino"]
 
         if user_choice == "espresso":
-            print(f"{water}", espresso["ingredients"]["water"])
             if water < espresso["ingredients"]["water"]:
-                print(
-                    "Sorry, there is not enough water in the machine to make your espresso."
-                )
+                return f"Sorry, there is not enough water in the machine to make your espresso."
+            elif milk < espresso["ingredients"]["milk"]:
+                return f"Sorry, there is not enough milk in the machine to make your espresso."
+            elif coffee < espresso["ingredients"]["coffee"]:
+                return f"Sorry, there is not enough coffee in the machine to make your espresso."
             water_level = water - espresso["ingredients"]["water"]
             milk_level = milk
             coffee_level = coffee - espresso["ingredients"]["coffee"]
@@ -49,7 +51,12 @@ while machine_on and not transaction_done:
             choice = [water_level, milk_level, coffee_level, cost]
 
         elif user_choice == "latte":
-
+            if water < latte["ingredients"]["water"]:
+                return f"Sorry, there is not enough water in the machine to make your latte."
+            elif milk < latte["ingredients"]["milk"]:
+                return f"Sorry, there is not enough milk in the machine to make your latte."
+            elif coffee < latte["ingredients"]["coffee"]:
+                return f"Sorry, there is not enough coffee in the machine to make your latte."
             water_level = water - latte["ingredients"]["water"]
             milk_level = milk - latte["ingredients"]["milk"]
             coffee_level = coffee - latte["ingredients"]["coffee"]
@@ -57,7 +64,12 @@ while machine_on and not transaction_done:
             choice = [water_level, milk_level, coffee_level, cost]
 
         elif user_choice == "cappuccino":
-
+            if water < cappuccino["ingredients"]["water"]:
+                return f"Sorry, there is not enough coffee in the machine to make your cappuccino."
+            elif milk < cappuccino["ingredients"]["milk"]:
+                return f"Sorry, there is not enough milk in the machine to make your cappuccino."
+            elif coffee < cappuccino["ingredients"]["coffee"]:
+                return f"Sorry, there is not enough coffee in the machine to make your cappuccino."
             water_level = water - cappuccino["ingredients"]["water"]
             milk_level = milk - cappuccino["ingredients"]["milk"]
             coffee_level = coffee - cappuccino["ingredients"]["coffee"]
@@ -78,14 +90,15 @@ while machine_on and not transaction_done:
     # 3. Print report.
     elif user_choice == "report":
         print(format_data(resources, money))
-    # TODO: 4 Check resources sufficient?
     else:
-        resources_after_purchase = check_resources(user_choice)
-        water = resources_after_purchase[0]
-        milk = resources_after_purchase[1]
-        coffee = resources_after_purchase[2]
-        cost = resources_after_purchase[3]
-        print(f"Choice when called: {resources_after_purchase}")
+        resources = check_resources(user_choice)
+        print(f"{resources}")
+        # resources_after_purchase = check_resources(user_choice)
+        # water = resources_after_purchase[0]
+        # milk = resources_after_purchase[1]
+        # coffee = resources_after_purchase[2]
+        # cost = resources_after_purchase[3]
+        # print(f"Choice when called: {resources_after_purchase}")
 
 
 # TODO: 5 Process coins.
